@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="Dashboard-nav">
+<head>
+<meta charset="ISO-8859-1">
+<title>Liste des Simulation</title>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+<link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+	<section layout:fragment="mainContent">
+		<div class="container mt-4">
+			<div class="card mb-3">
+				<div class="card-body">
+					<form method="get" th:action="@{/admin/simulation}">
+						<div class="row g-3 align-items-center">
+							<div class="col-auto">
+								<label for="input-reference" class="col-form-label sm">Reference</label>
+							</div>
+							<div class="col-auto">
+								<input type="text" id="input-reference" name="reference"
+									th:value="${reference}" class="form-control form-control-sm">
+							</div>
+							<div class="col-auto">
+								<button id="input-reference" class="btn btn-sm btn-success">
+									Chercher</button>
+							</div>
+							<div class="col-auto">
+								<a th:href="@{/admin/simulation}" class="btn btn-sm btn-warning">Tout
+									voir </a>
+							</div>
+							<div class="col-auto">
+								<a th:href="@{/admin/}" class="btn btn-sm btn-info">List Client
+									 </a>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div class="card text-center">
+				<div class="card-header">Liste des Simulation</div>
+				<div class="card-body">
+					<table class="table table-dark">
+						<thead>
+							<tr>
+								<th scope="col">ID</th>
+								<th scope="col">Job</th>
+								<th scope="col">Amount</th>
+								<th scope="col">Duration</th>
+								<th scope="col">Monthly Payment</th>
+								<th scope="col">Reference</th>
+								<th scope="col">Status</th>
+								<th scope="col">Supprimer</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="simulation: ${simulations}">
+								<td th:text="${simulation.id}" />
+								<td th:text="${simulation.job}" />
+								<td th:text="${simulation.amount}" />
+								<td th:text="${simulation.duration}" />
+								<td th:text="${simulation.monthlyPayment}" />
+								<td th:text="${simulation.reference}" />
+								<td th:text="${simulation.status} ? 'Oui' : 'Non'" />
+								<td><a th:href="@{/admin/simulation/delete/(id=${simulation.id})}"
+									class="btn btn-danger btn-sm">Supprimer</a></td>
+							</tr>
+						</tbody>
+					</table>
+
+				</div>
+				<div class="card-footer text-muted">Pages</div>
+				<nav aria-label="...">
+					<ul class="pagination pagination-sm">
+						<li th:each="page, status: ${pages}" class="page-item"><a
+							th:href="@{/admin/simulation/(page=${status.index},reference=${reference})}"
+							th:text="${status.index + 1}" class="page-link" tabindex="-1"></a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</section>
+</body>
+</html>
